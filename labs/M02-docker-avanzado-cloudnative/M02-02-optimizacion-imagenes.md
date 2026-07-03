@@ -253,11 +253,13 @@ Rellena con tu salida de `image-size-compare.sh`:
 
 | Métrica | legacy | multistage |
 |---------|--------|------------|
-| Tamaño (MB) | | |
-| Capas (aprox.) | | |
+| Tamaño (MB) | 49.6 | 46.4 |
+| Capas (aprox.) | 16 | 18 |
 | Usuario runtime | root | app (10001) |
 
 **Pregunta extra:** ¿Qué beneficio te parece más importante aquí — MB ahorrados, no-root o caché de capas? Justifica en una frase.
+
+--> 1º no-root para mayor seguridad, 2º MB ahorrados porque si crece la aplicacion, se notará más, 3º cache de capas
 
 <details>
 <summary>Ver orientación</summary>

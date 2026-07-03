@@ -28,8 +28,8 @@ services:
     image: postgres:16-alpine
     environment:
       POSTGRES_USER: lab
-      POSTGRES_PASSWORD: lab
-      POSTGRES_DB: lab
+      POSTGRES_PASSWORD: bata
+      POSTGRES_DB: eu
     ports:
       - "5432:5432"
     healthcheck:
