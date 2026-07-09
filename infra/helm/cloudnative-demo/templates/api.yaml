@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-api-config
+  namespace: {{ .Values.namespace }}
+data:
+  REDIS_URL: {{ .Values.config.redisUrl | quote }}
+  SERVICE_NAME: {{ .Values.config.serviceName | quote }}
+  LAB_SLOW_SECONDS: "3"
+  PORT: "8081"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: demo-api-secret
+  namespace: {{ .Values.namespace }}
+type: Opaque
+stringData:
+  DATABASE_URL: {{ .Values.config.databaseUrl | quote }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-api
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.api.replicas }}
+  selector:
+    matchLabels:
+      app: demo-api
+  template:
+    metadata:
+      labels:
+        app: demo-api
+    spec:
+      containers:
+        - name: api
+          image: {{ .Values.api.image }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+          envFrom:
+            - configMapRef:
+                name: demo-api-config
+            - secretRef:
+                name: demo-api-secret
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8081
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-api
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: demo-api
+  ports:
+    - port: {{ .Values.api.servicePort }}
+      targetPort: 8081
