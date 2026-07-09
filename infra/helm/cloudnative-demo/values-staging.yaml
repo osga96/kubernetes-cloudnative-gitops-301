@@ -1,0 +1,4 @@
+api:
+  replicas: 2
+config:
+  serviceName: cloudnative-demo-api-staging
