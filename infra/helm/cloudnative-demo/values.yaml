@@ -163,12 +163,12 @@ affinity: {}
 namespace: cloudnative-lab
 
 api:
-  image: cloudnative-demo-api:local
+  image: ghcr.io/osga96/kubernetes-cloudnative-gitops-301/demo-api:latest
   replicas: 2
   servicePort: 8081
 
 web:
-  image: cloudnative-demo-web:local
+  image: ghcr.io/osga96/kubernetes-cloudnative-gitops-301/demo-web:latest
   replicas: 1
   servicePort: 8080
   nodePort: 30080
